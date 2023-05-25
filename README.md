@@ -13,6 +13,7 @@
     - Password: Password
 - Clone the github repository and checkout to the develop branch using a terminal of your choice.
 - Make sure that the .env file is updated and contains the correct data to be used by the app.
+- Run `composer install`.
 - Run `npm install`.
 - Run `npm run dev`.
 - Run `php artisan serve`.
