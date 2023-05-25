@@ -14,10 +14,5 @@
     </body>
     <footer>
         <script type="text/javascript" src="{{ mix('/js/dashboard.js') }}" charset="utf-8"></script>
-        <script type="text/javascript">
-            sessionStorage.setItem('user_no', '{{ $user_no }}');
-            sessionStorage.setItem('username', '{{ $username }}');
-            sessionStorage.setItem('is_admin', '{{ $is_admin }}');
-        </script>
     </footer>
 </html>

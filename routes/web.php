@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,17 +20,26 @@ Route::get('/login', function () {
 })->name('login')->middleware('authLoggedInChecker');
 
 Route::middleware('authChecker')->prefix('/dashboard')->group(function () {
-    $aParameters = [
-        'username' => Cache::get('username'),
-        'is_admin' => Cache::get('is_admin'),
-        'user_no'  => Cache::get('user_no')
-    ];
-
-    Route::get('/', function () use ($aParameters) {
-        return view('dashboard', $aParameters);
+    Route::get('/', function () {
+        return view('dashboard');
     })->name('dashboard.main');
 
-    Route::get('/list', function () use ($aParameters) {
-        return view('dashboard', $aParameters);
+    Route::get('/list', function () {
+        return view('dashboard');
     })->name('dashboard.list')->middleware('checkIsAdmin');
+});
+
+Route::prefix('api')->group(function () {
+    Route::middleware('authChecker')->prefix('/user')->group(function () {
+        Route::get('/', [ UserController::class, 'getUserList' ])->middleware('checkIsAdmin');
+        Route::get('/logout', [ UserController::class, 'logoutUser' ]);
+        Route::get('/current', [ UserController::class, 'getUserByNo' ]);
+        Route::put('/{iUserNo}', [ UserController::class, 'updateUser' ]);
+        Route::delete('/{iUserNo}', [ UserController::class, 'deleteUser' ]);
+    });
+    
+    Route::middleware('authLoggedInChecker')->prefix('/user')->group(function () {
+        Route::post('/login', [ UserController::class, 'loginUser' ]);
+        Route::post('/', [ UserController::class, 'createUser' ]);
+    });
 });

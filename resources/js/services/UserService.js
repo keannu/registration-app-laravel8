@@ -24,11 +24,10 @@ export default {
      * fetchUser
      * @author Keannu Rim Kristoffer C. Regala <keannu>
      * @since 2023.05.20
-     * @param { int } iUserNo
      * @returns { object }
      */
-     fetchUser(iUserNo) {
-        return oUserServiceApiClient.get('/' + iUserNo);
+     fetchUser() {
+        return oUserServiceApiClient.get('/current');
     },
 
     /**

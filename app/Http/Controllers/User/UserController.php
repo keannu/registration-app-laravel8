@@ -7,6 +7,7 @@ use App\Http\Requests\User\GetUserRequest;
 use App\Http\Requests\User\UserLoginRequest;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 /**
  * Class UserController

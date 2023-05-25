@@ -4,9 +4,9 @@ namespace App\Services\User;
 
 use App\Models\User\UserModel;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 
 /**
@@ -22,12 +22,6 @@ class UserService
      * @var UserModel $oUserModel
      */
     private $oUserModel;
-
-    /**
-     * @const int CACHE_TTL
-     * Cache retention period : 15 minutes
-     */
-    const CACHE_TTL = 900;
 
     /**
      * PlaceInformationService constructor.
@@ -64,11 +58,9 @@ class UserService
             ];
         }
 
-        Cache::put([
-            'user_no'  => Arr::get($aUser, 'user_no', 0),
-            'username' => Arr::get($aUser, 'username', ''),
-            'is_admin' => Arr::get($aUser, 'is_admin', 'F')
-        ], self::CACHE_TTL);
+        session()->put('user_no', Arr::get($aUser, 'user_no', ''));
+        session()->put('username', Arr::get($aUser, 'username', ''));
+        session()->put('is_admin', Arr::get($aUser, 'is_admin', ''));
 
         return [
             'code' => 200,
@@ -168,7 +160,7 @@ class UserService
             ];
         }
 
-        Cache::flush();
+        session()->flush();
         return [
             'code' => 200,
             'data' => [
@@ -192,12 +184,11 @@ class UserService
 
     /**
      * getUserByNo
-     * @param int $iUserNo
      * @return array
      */
     public function getUserByNo() : array
     {
-        $aUserInfo = $this->oUserModel->getUserByNo(Cache::get('user_no', 0));
+        $aUserInfo = $this->oUserModel->getUserByNo(session()->get('user_no'));
         if (empty($aUserInfo) === true) {
             return [
                 'code' => 422,
@@ -220,7 +211,7 @@ class UserService
      */
     public function logoutUser() : array
     {
-        Cache::flush();
+        session()->flush();
 
         return [
             'code' => 200,

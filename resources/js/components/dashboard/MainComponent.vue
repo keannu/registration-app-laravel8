@@ -207,7 +207,7 @@
 				};
 				this.bIsPageLoading = true;
 				this.bIsButtonDisabled = true;
-				await this.fetchUser(this.iUserNumber);
+				await this.fetchUser();
 				this.bIsPageLoading = false;
 				this.bIsButtonDisabled = false;
 				this.oUpdateInfo = { ...this.oCurrenUserInfo };

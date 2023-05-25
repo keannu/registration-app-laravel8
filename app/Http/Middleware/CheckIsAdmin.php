@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use \Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * Class CheckIsAdmin
@@ -21,7 +20,7 @@ class CheckIsAdmin
      */
     public function handle(Request $oRequest, Closure $oClosure)
     {
-        $sIsAdmin = Cache::get('is_admin');
+        $sIsAdmin = session()->get('is_admin');
         if (empty($sIsAdmin) === true || $sIsAdmin !== 'T') {
             return redirect()->route('dashboard.main');
         }

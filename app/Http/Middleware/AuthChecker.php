@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use \Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class AuthChecker
@@ -22,7 +22,7 @@ class AuthChecker
      */
     public function handle(Request $oRequest, Closure $oClosure)
     {
-        if (empty(Cache::get('username')) === true) {
+        if (empty(session()->get('username')) === true) {
             return redirect()->route('login');
         }
 

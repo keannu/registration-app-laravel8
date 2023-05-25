@@ -203,11 +203,10 @@ const actions = {
      * @since 2023.05.20
      * @param object commit
      * @param object dispatch
-     * @param { int } iUserNo
      */
-    async fetchUser({ commit, dispatch }, iUserNo) {
+    async fetchUser({ commit, dispatch }) {
         commit('SET_CURRENT_USER', {});
-        await oUserService.fetchUser(iUserNo)
+        await oUserService.fetchUser()
             .then(oResponse => {
                  if (oResponse.status === 200) {
                     commit('SET_CURRENT_USER', oResponse.data);
